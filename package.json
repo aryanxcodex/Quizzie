@@ -1,0 +1,8 @@
+{
+  "name": "quizzie",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "npm --prefix backend run dev",
+    "client": "npm --prefix frontend start"
+  }
+}
