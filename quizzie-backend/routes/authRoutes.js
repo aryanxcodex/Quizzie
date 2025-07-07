@@ -5,6 +5,9 @@ import {
   logout,
 } from "../controllers/authControllers.js";
 import User from "../models/users.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const router = Router();
 
@@ -21,7 +24,7 @@ router.get("/google/callback", googleCallback, async (req, res) => {
 
     console.log("User authenticated:", req.user);
 
-    res.redirect("http://localhost:5173/home");
+    res.redirect(`${process.env.BASE_URL}/dashboard`);
   } catch (err) {
     console.error("Error in Google callback:", err);
     res.json({ error: "Error in Google callback" });

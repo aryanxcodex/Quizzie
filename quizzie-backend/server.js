@@ -5,6 +5,8 @@ import authRoutes from "./routes/authRoutes.js";
 import { connectDB } from "./config/db.js";
 import dotenv from "dotenv";
 import session from "express-session";
+import MongoStore from "connect-mongo";
+import mongoose from "mongoose";
 
 dotenv.config();
 
@@ -23,7 +25,15 @@ app.use(
     secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false },
+    store: MongoStore.create({
+      client: mongoose.connection.getClient(),
+      collectionName: "sessions",
+    }),
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24,
+      httpOnly: true,
+      secure: false,
+    },
   })
 );
 app.use(express.json());

@@ -1,4 +1,7 @@
 import passport from "passport";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export const loginWithGoogle = (req, res, next) => {
   passport.authenticate("google", {
@@ -17,7 +20,7 @@ export const logout = (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      res.redirect("http://localhost:5173/");
+      res.redirect(`${process.env.BASE_URL}/`);
     }
   });
 };
