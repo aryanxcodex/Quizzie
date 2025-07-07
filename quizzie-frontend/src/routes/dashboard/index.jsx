@@ -1,14 +1,24 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { toast } from "sonner";
-import useAuthStore from "../../store/authStore.js";
+import axios from "axios";
+import { BASE_URL } from "@/config/constants";
 export const Route = createFileRoute("/dashboard/")({
-  beforeLoad: async ({ location }) => {
-    const { isAuthenticated } = useAuthStore.getState();
-    if (!isAuthenticated) {
-      toast.error("You must be logged in to view that page.");
-      throw redirect({
-        to: "/",
+  beforeLoad: async ({ context }) => {
+    try {
+      const res = await context.queryClient.fetchQuery({
+        queryKey: ["auth"],
+        queryFn: async () => {
+          const response = await axios.get(`${BASE_URL}/auth/check-auth`, {
+            withCredentials: true,
+          });
+          return response.data;
+        },
+        staleTime: 5 * 60 * 1000,
       });
+
+      return { user: res };
+    } catch (err) {
+      throw redirect({ to: "/" });
     }
   },
   component: RouteComponent,

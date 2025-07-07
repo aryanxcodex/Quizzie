@@ -34,10 +34,10 @@ router.get("/google/callback", googleCallback, async (req, res) => {
 router.get("/logout", logout);
 
 router.get("/check-auth", (req, res) => {
-  if (req.session.user) {
-    res.json({ authenticated: true, user: req.session.user });
+  if (req.isAuthenticated()) {
+    res.json({ isAuthenticated: true, user: req.user });
   } else {
-    res.json({ authenticated: false });
+    res.json({ isAuthenticated: false, user: null });
   }
 });
 

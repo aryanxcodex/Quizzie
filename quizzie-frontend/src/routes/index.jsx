@@ -1,4 +1,3 @@
-// src/routes/index.jsx
 import { createFileRoute } from "@tanstack/react-router";
 import React, { useState, useEffect } from "react";
 import {
@@ -13,17 +12,27 @@ import {
   Sparkles,
   CheckCircle,
   Star,
+  Loader2,
 } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
+import { BASE_URL } from "@/config/constants";
+import { useNavigate } from "@tanstack/react-router";
+import { useAuth } from "@/hooks/useAuth";
 
 const QuizzieHomepage = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const navigate = useNavigate();
+  const { data, isLoading, isError } = useAuth();
 
-  const handleGoogleLogin = async () => {
-    try {
-      window.location.href = "http://localhost:3000/auth/login/google";
-    } catch (error) {
-      console.error("Google login error:", error);
+  const handleButtonClick = async () => {
+    if (data?.isAuthenticated) {
+      navigate({ to: "/dashboard" });
+    } else {
+      try {
+        window.location.href = `${BASE_URL}/auth/login/google`;
+      } catch (error) {
+        console.error("Google login error:", error);
+      }
     }
   };
 
@@ -62,11 +71,19 @@ const QuizzieHomepage = () => {
           </a>
         </div>
         <button
-          onClick={handleGoogleLogin}
+          onClick={handleButtonClick}
           className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors cursor-pointer"
         >
-          <FcGoogle className="w-5 h-5" />
-          <span>Sign in with Google</span>
+          {isLoading ? (
+            <Loader2 className="w-5 h-5 animate-spin" />
+          ) : data?.isAuthenticated ? (
+            <span>DashBoard</span>
+          ) : (
+            <>
+              <FcGoogle className="w-5 h-5" />
+              <span>Sign in with Google</span>
+            </>
+          )}
         </button>
       </nav>
 
@@ -85,7 +102,7 @@ const QuizzieHomepage = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
-              onClick={handleGoogleLogin}
+              onClick={handleButtonClick}
               className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer"
             >
               <Play className="w-5 h-5" />
@@ -250,13 +267,13 @@ const QuizzieHomepage = () => {
               Join thousands of educators and trainers who are already using
               Quizzie to create engaging assessments.
             </p>
-            <button
-              onClick={handleGoogleLogin}
+            {/* <button
+              onClick={handleButtonClick}
               className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors"
             >
               <FcGoogle className="w-5 h-5" />
               Sign in with Google
-            </button>
+            </button> */}
           </div>
         </div>
       </section>
