@@ -84,7 +84,10 @@ const QuizzieHomepage = () => {
             Perfect for educators, trainers, and students.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer">
+            <button
+              onClick={handleGoogleLogin}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer"
+            >
               <Play className="w-5 h-5" />
               Start Creating
             </button>

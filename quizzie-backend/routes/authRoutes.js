@@ -10,12 +10,11 @@ const router = Router();
 
 router.get("/login/google", loginWithGoogle);
 
-// Google OAuth callback route - this is where the user lands after Google auth
 router.get("/google/callback", googleCallback, async (req, res) => {
   try {
     if (!req.user) {
       console.log("error");
-      res.redirect("http://localhost:5173/error");
+      return res.json({ error: "Error in Google callback" });
     }
 
     req.session.user = req.user;
@@ -25,7 +24,7 @@ router.get("/google/callback", googleCallback, async (req, res) => {
     res.redirect("http://localhost:5173/home");
   } catch (err) {
     console.error("Error in Google callback:", err);
-    res.redirect("/login?error=server_error");
+    res.json({ error: "Error in Google callback" });
   }
 });
 
