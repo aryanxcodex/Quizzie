@@ -22,7 +22,7 @@ router.get("/google/callback", googleCallback, async (req, res) => {
 
     req.session.user = req.user;
 
-    console.log("User authenticated:", req.user);
+    // console.log("User authenticated:", req.user);
 
     res.redirect(`${process.env.BASE_URL}/dashboard`);
   } catch (err) {

@@ -2,6 +2,10 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 import { toast } from "sonner";
 import axios from "axios";
 import { BASE_URL } from "@/config/constants";
+import React, { useState } from "react";
+const Dashboard = () => {
+  return <div>Hello</div>;
+};
 export const Route = createFileRoute("/dashboard/")({
   beforeLoad: async ({ context }) => {
     try {
@@ -21,9 +25,5 @@ export const Route = createFileRoute("/dashboard/")({
       throw redirect({ to: "/" });
     }
   },
-  component: RouteComponent,
+  component: Dashboard,
 });
-
-function RouteComponent() {
-  return <div>Hello "/dashboard/"!</div>;
-}
