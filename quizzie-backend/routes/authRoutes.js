@@ -35,9 +35,9 @@ router.get("/logout", logout);
 
 router.get("/check-auth", (req, res) => {
   if (req.isAuthenticated()) {
-    res.json({ isAuthenticated: true, user: req.user });
+    res.status(200).json({ isAuthenticated: true, user: req.user });
   } else {
-    res.json({ isAuthenticated: false, user: null });
+    res.status(200).json({ isAuthenticated: false, user: null });
   }
 });
 
